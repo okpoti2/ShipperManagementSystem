@@ -292,3 +292,9 @@
   li {
     display: inline;
   }
+
+  .thMain{
+    background-color: green;
+    font-weight: bold;
+    color:beige;
+  }

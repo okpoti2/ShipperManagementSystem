@@ -11,35 +11,33 @@ import { Job } from "../../model/job";
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.css']
 })
-export class MainComponent implements OnInit {
+export class MainComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['ID', 'JOBDATE','CONTAINER', 'SHIPPER', 'LINE', 'DEPARTURE', 'ARRIVAL', 'VESSEL', 'COMPLETE', 'RECEIPT'];
   jobs: Job[] = [];
 
-  dataSource: any; 
-
-  constructor(private jobService: JobService){
-  }
+  dataSource: MatTableDataSource<Job>; 
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+
+  constructor(private jobService: JobService){
+  }
 
   ngOnInit(){
       this.jobService.getJobs().subscribe((jobs: Job[])=>{
         this.jobs = jobs;
         //console.log(jobs);
         this.dataSource = new MatTableDataSource<Job>(this.jobs);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
       });
       
+      //this.dataSource.paginator = this.paginator;
+      //this.dataSource.sort = this.sort;
   }
-
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
 }
 
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
+
 
