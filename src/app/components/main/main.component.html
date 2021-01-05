@@ -1,58 +1,63 @@
 <mat-divider></mat-divider>
 <mat-tab-group>
   <mat-tab label="Main"> 
+    <mat-form-field>
+      <mat-label>Filter</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+    </mat-form-field>
 <div class="mat-elevation-z8">
+    
     <table mat-table [dataSource]="dataSource" matSort>
 
       <!-- ID Column -->
-      <ng-container matColumnDef="ID">
+      <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef mat-sort-header > ID</th>
-        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        <td mat-cell *matCellDef="let element" > {{element.id}} </td>
       </ng-container>
 
       <!-- Job Date Column -->
-      <ng-container matColumnDef="JOBDATE">
+      <ng-container matColumnDef="jobDate">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>JOB DATE</th>
         <td mat-cell *matCellDef="let element"> {{element.jobDate}} </td>
       </ng-container>
       
       <!-- Container Number Column -->
-      <ng-container matColumnDef="CONTAINER">
+      <ng-container matColumnDef="containerNumber">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> CONTAINER NUMBER</th>
         <td mat-cell *matCellDef="let element"> {{element.containerNumber}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="SHIPPER">
+      <ng-container matColumnDef="shipper">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> SHIPPER</th>
         <td mat-cell *matCellDef="let element"> {{element.shipper}} </td>
       </ng-container>
       
-      <ng-container matColumnDef="LINE">
+      <ng-container matColumnDef="line">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> LINE</th>
         <td mat-cell *matCellDef="let element"> {{element.line}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="DEPARTURE">
+      <ng-container matColumnDef="departure">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> DEPARTURE</th>
         <td mat-cell *matCellDef="let element"> {{element.departure}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="ARRIVAL">
+      <ng-container matColumnDef="arrival">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> ARRIVAL</th>
         <td mat-cell *matCellDef="let element"> {{element.arrival}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="VESSEL">
+      <ng-container matColumnDef="vessel">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> VESSEL</th>
         <td mat-cell *matCellDef="let element"> {{element.vessel}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="COMPLETE">
+      <ng-container matColumnDef="status">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> COMPLETED</th>
         <td mat-cell *matCellDef="let element"> {{element.status}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="RECEIPT">
+      <ng-container matColumnDef="receiptNumber">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> RECEIPT NUMBER</th>
         <td mat-cell *matCellDef="let element"> {{element.receiptNumber}} </td>
       </ng-container>
