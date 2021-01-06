@@ -22,6 +22,9 @@ class Shipper(models.Model):
     def __unicode__(self):
         return '%s' % self.first_name
 
+    def __str__(self):
+        return '%s' % self.first_name
+
 
 class Line(models.Model):
     name = models.CharField(max_length=50)
@@ -30,6 +33,9 @@ class Line(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     modified_by = models.ForeignKey('auth.User', related_name='line_creator', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return '%s' % self.name
 
 
 class Vessel(models.Model):
@@ -41,6 +47,9 @@ class Vessel(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     modified_by = models.ForeignKey('auth.User', related_name='vessel_creator', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return '%s' % self.name
 
 
 class Consignment(models.Model):
@@ -71,3 +80,6 @@ class Consignment(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     modified_by = models.ForeignKey('auth.User', related_name='consignment_creator', on_delete=models.RESTRICT)
+
+    def __str__(self):
+        return '%s' % self.container
