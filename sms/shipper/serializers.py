@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Shipper, Line, Vessel, Consignment
+from .models import Shipper, Line, Vessel, Consignment, ExFile
 from django.contrib.auth.models import User
 
 
@@ -66,3 +66,13 @@ class ConsignmentSerializer(serializers.HyperlinkedModelSerializer):
             'updated_at',
             'modified_by',
         ]
+
+
+class ExFileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ExFile
+        fields = ['id',
+                  'file',
+                  'created_at',
+                  'modified_by'
+                  ]

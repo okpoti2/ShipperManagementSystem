@@ -1,8 +1,7 @@
 from django.db import models
 from phone_field import PhoneField
+from django.contrib.auth.models import User
 
-
-# Create your models here.
 
 class Shipper(models.Model):
     first_name = models.CharField(max_length=50)
@@ -14,7 +13,8 @@ class Shipper(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    modified_by = models.ForeignKey('auth.User', related_name='shipper_creator', on_delete=models.CASCADE)
+    modified_by = models.ForeignKey(User, null=True, blank=True, related_name='shipper_creator',
+                                    on_delete=models.CASCADE)
 
     class Meta:
         ordering = ['created_at']
@@ -32,7 +32,7 @@ class Line(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    modified_by = models.ForeignKey('auth.User', related_name='line_creator', on_delete=models.CASCADE)
+    modified_by = models.ForeignKey(User, null=True, blank=True, related_name='line_creator', on_delete=models.CASCADE)
 
     def __str__(self):
         return '%s' % self.name
@@ -46,40 +46,53 @@ class Vessel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    modified_by = models.ForeignKey('auth.User', related_name='vessel_creator', on_delete=models.CASCADE)
+    modified_by = models.ForeignKey(User, null=True, blank=True, related_name='vessel_creator',
+                                    on_delete=models.CASCADE)
 
     def __str__(self):
         return '%s' % self.name
 
 
 class Consignment(models.Model):
-    PENDING = 0
-    COMPLETE = 1
+    YES = 'YES'
+    NO = 'NO'
 
     STATUS_CHOICES = (
-        (PENDING, 'Pending'),
-        (COMPLETE, 'Complete')
+        (YES, 'YES'),
+        (NO, 'NO')
     )
 
     container = models.CharField(max_length=12, null=True, blank=True)
 
-    shipper = models.ForeignKey(Shipper, on_delete=models.RESTRICT)
+    shipper = models.ForeignKey(Shipper, on_delete=models.RESTRICT, null=True, blank=True)
 
-    line = models.ForeignKey(Line, on_delete=models.RESTRICT)
+    line = models.ForeignKey(Line, on_delete=models.RESTRICT, null=True, blank=True)
 
-    departure = models.DateField()
-    arrival = models.DateField()
+    departure = models.DateField(null=True, blank=True)
+    arrival = models.DateField(null=True, blank=True)
 
-    vessel = models.ForeignKey(Vessel, on_delete=models.RESTRICT)
+    vessel = models.ForeignKey(Vessel, on_delete=models.RESTRICT, null=True, blank=True)
 
-    status = models.IntegerField(default=PENDING, choices=STATUS_CHOICES)
+    status = models.CharField(default=NO, max_length=4, choices=STATUS_CHOICES, null=True, blank=True)
 
     receipt_number = models.CharField(max_length=50, null=True, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    modified_by = models.ForeignKey('auth.User', related_name='consignment_creator', on_delete=models.RESTRICT)
+    modified_by = models.ForeignKey(User, null=True, blank=True, related_name='consignment_creator',
+                                    on_delete=models.RESTRICT)
 
     def __str__(self):
         return '%s' % self.container
+
+
+class ExFile(models.Model):
+    file = models.FileField()
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_by = models.ForeignKey(User, null=True, blank=True, related_name='file_uploader',
+                                    on_delete=models.RESTRICT)
+
+    def __str__(self):
+        return self.file.name
