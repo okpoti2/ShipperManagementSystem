@@ -34,6 +34,9 @@ class Line(models.Model):
 
     modified_by = models.ForeignKey(User, null=True, blank=True, related_name='line_creator', on_delete=models.CASCADE)
 
+    class Meta:
+        ordering = ['created_at']
+
     def __str__(self):
         return '%s' % self.name
 
@@ -48,6 +51,9 @@ class Vessel(models.Model):
 
     modified_by = models.ForeignKey(User, null=True, blank=True, related_name='vessel_creator',
                                     on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ['created_at']
 
     def __str__(self):
         return '%s' % self.name
@@ -83,6 +89,9 @@ class Consignment(models.Model):
     modified_by = models.ForeignKey(User, null=True, blank=True, related_name='consignment_creator',
                                     on_delete=models.RESTRICT)
 
+    class Meta:
+        ordering = ['created_at']
+
     def __str__(self):
         return '%s' % self.container
 
@@ -93,6 +102,9 @@ class ExFile(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     modified_by = models.ForeignKey(User, null=True, blank=True, related_name='file_uploader',
                                     on_delete=models.RESTRICT)
+
+    class Meta:
+        ordering = ['created_at']
 
     def __str__(self):
         return self.file.name
