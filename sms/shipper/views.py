@@ -1,8 +1,10 @@
 from .models import Shipper, Line, Vessel, Consignment, ExFile
 from django.contrib.auth.models import User
 
-from .serializers import (ShipperSerializer,
-                          LineSerializer, VesselSerializer, ConsignmentSerializer, UserSerializer, ExFileSerializer)
+from .serializers import (ShipperSerializer, LineSerializerExpanded, VesselSerializerExpanded,
+                          LineSerializer, VesselSerializer, ConsignmentSerializer,
+                          UserSerializer, ExFileSerializer, ShipperSerializerExpanded,
+                          ConsignmentSerializerExpanded)
 from .filters import (ShipperFilter,
                       LineFilter, VesselFilter, ConsignmentFilter, UserFilter)
 
@@ -30,11 +32,23 @@ class ShipperViewSet(viewsets.ModelViewSet):
     serializer_class = ShipperSerializer
     filter_class = ShipperFilter
 
+    def get_serializer_class(self):
+        ui_context = self.request.query_params.get('uicontext')
+        if ui_context == 'detail':
+            return ShipperSerializerExpanded
+        return self.serializer_class
+
 
 class LineViewSet(viewsets.ModelViewSet):
     queryset = Line.objects.all()
     serializer_class = LineSerializer
     filter_class = LineFilter
+
+    def get_serializer_class(self):
+        ui_context = self.request.query_params.get('uicontext')
+        if ui_context == 'detail':
+            return LineSerializerExpanded
+        return self.serializer_class
 
 
 class VesselViewSet(viewsets.ModelViewSet):
@@ -42,11 +56,23 @@ class VesselViewSet(viewsets.ModelViewSet):
     serializer_class = VesselSerializer
     filter_class = VesselFilter
 
+    def get_serializer_class(self):
+        ui_context = self.request.query_params.get('uicontext')
+        if ui_context == 'detail':
+            return VesselSerializerExpanded
+        return self.serializer_class
+
 
 class ConsignmentViewSet(viewsets.ModelViewSet):
     queryset = Consignment.objects.all()
     serializer_class = ConsignmentSerializer
     filter_class = ConsignmentFilter
+
+    def get_serializer_class(self):
+        ui_context = self.request.query_params.get('uicontext')
+        if ui_context == 'detail':
+            return ConsignmentSerializerExpanded
+        return self.serializer_class
 
 
 class ExFileViewSet(viewsets.ModelViewSet):

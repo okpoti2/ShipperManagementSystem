@@ -24,6 +24,10 @@ class ShipperSerializer(serializers.HyperlinkedModelSerializer):
         ]
 
 
+class ShipperSerializerExpanded(ShipperSerializer):
+    modified_by = UserSerializer()
+
+
 class LineSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Line
@@ -34,6 +38,10 @@ class LineSerializer(serializers.HyperlinkedModelSerializer):
             'updated_at',
             'modified_by',
         ]
+
+
+class LineSerializerExpanded(LineSerializer):
+    modified_by = UserSerializer()
 
 
 class VesselSerializer(serializers.HyperlinkedModelSerializer):
@@ -47,6 +55,11 @@ class VesselSerializer(serializers.HyperlinkedModelSerializer):
             'updated_at',
             'modified_by',
         ]
+
+
+class VesselSerializerExpanded(VesselSerializer):
+    line = LineSerializer()
+    modified_by = UserSerializer()
 
 
 class ConsignmentSerializer(serializers.HyperlinkedModelSerializer):
@@ -66,6 +79,13 @@ class ConsignmentSerializer(serializers.HyperlinkedModelSerializer):
             'updated_at',
             'modified_by',
         ]
+
+
+class ConsignmentSerializerExpanded(ConsignmentSerializer):
+    shipper = ShipperSerializer()
+    line = LineSerializer()
+    vessel = VesselSerializer()
+    modified_by = UserSerializer()
 
 
 class ExFileSerializer(serializers.ModelSerializer):

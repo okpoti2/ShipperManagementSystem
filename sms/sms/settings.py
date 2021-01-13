@@ -26,7 +26,7 @@ SECRET_KEY = 'qb=-_wx2_e%og35*sc=ff7*caa^g8)+33p070$f*2=-sr6ifk6'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.0.80']
+ALLOWED_HOSTS = ['192.168.0.80', '192.168.0.89']
 
 
 # Application definition
@@ -42,10 +42,12 @@ INSTALLED_APPS = [
     'django_filters',
     'shipper',
     'phone_field',
+    'corsheaders',
     # 'rest_framework_filters',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -85,6 +87,12 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+CORS_ORIGIN_ALLOW_ALL = True
+
+# CORS_ORIGIN_WHITELIST = (
+#     'http://192.168.0.89:8000',
+# )
 
 
 # Password validation
