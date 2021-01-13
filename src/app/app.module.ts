@@ -3,25 +3,23 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from "@angular/common/http";
-import { InMemoryWebApiModule } from "angular-in-memory-web-api"; 
+//import { InMemoryWebApiModule } from "angular-in-memory-web-api"; 
 
 /*---------------------Angular Material-------------------------------------*/
 import { AngularMaterialModule } from './angular-material.module';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+/*--------------Services-----------------*/
+//import { DataService } from "./services/data.service";
+import { ConsignmentService } from './services/consignment.service';
 
 /*--------------Components-----------------*/
 import { AppComponent } from './app.component';
 import { MainComponent } from './components/main/main.component';
 import { AuthenticationComponent } from './components/authentication/authentication.component';
 import { HeaderComponent } from './components/header/header.component';
-
-
-/*--------------Services-----------------*/
-//import { DataService } from "./services/data.service";
-import { ConsignmentService } from './services/consignment.service';
-
+import { ConsignmentDetailComponent } from './components/consignment-detail/consignment-detail.component';
 
 
 
@@ -30,7 +28,8 @@ import { ConsignmentService } from './services/consignment.service';
     AppComponent,
     MainComponent,
     AuthenticationComponent,
-    HeaderComponent
+    HeaderComponent,
+    ConsignmentDetailComponent
   ],
   imports: [
     BrowserModule,

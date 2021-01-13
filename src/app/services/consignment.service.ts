@@ -19,7 +19,11 @@ export class ConsignmentService {
     return this.httpClient.get<Consignment[]>(this.API_URL + 'consignment?format=json&uicontext=detail')
   }
 
-  getConsignment(consignmentId) {
-    return this.httpClient.get<Consignment[]>(`${this.API_URL + 'consignment'}/${consignmentId}`)
+  /*getConsignment(consignmentId): Observable<Consignment[]> {
+    return this.httpClient.get<Consignment[]>(`${this.API_URL + 'consignment'}/${consignmentId}` + '?format=json&uicontext=detail')
+  }*/
+  getConsignment(containerNumber): Observable<Consignment> {
+    //console.log(this.API_URL + 'consignment?container='+`${containerNumber}`+'format=json')
+    return this.httpClient.get<Consignment>(this.API_URL + 'consignment?container='+`${containerNumber}`+'&format=json')
   }
 }

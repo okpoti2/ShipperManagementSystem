@@ -11,8 +11,7 @@ import { Consignment } from 'src/app/model/consignment';
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
-  styleUrls: ['./main.component.css'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['created_at','container_number', 'shipper', 'line', 'departure', 'arrival', 'vessel', 'status', 'receipt_number'];
@@ -36,13 +35,12 @@ export class MainComponent implements OnInit, AfterViewInit {
   }
   ngAfterViewInit() {
     this.consignmentService.getConsignments().subscribe((consignments: Consignment[])=>{
-      console.log(consignments);
+      //console.log(consignments);
       this.consignmentsData = consignments['results'];
-    this.dataSource = new MatTableDataSource<Consignment>(this.consignmentsData);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+      this.dataSource = new MatTableDataSource<Consignment>(this.consignmentsData);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
       //console.log(jobs);
-    
     //this.jobService.getJobs().subscribe((jobs: Job[]) => this.dataSource = new MatTableDataSource<Job>(jobs));
   });
     

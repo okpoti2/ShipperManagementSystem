@@ -19,7 +19,7 @@
       <!-- Container Number Column -->
       <ng-container matColumnDef="container_number">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> CONTAINER NUMBER</th>
-        <td mat-cell *matCellDef="let element"> {{element.container}} </td>
+        <td mat-cell *matCellDef="let element"> <a routerLink="/consignment/{{element.container}}">{{element.container}} </a></td>
       </ng-container>
 
       <ng-container matColumnDef="shipper">
