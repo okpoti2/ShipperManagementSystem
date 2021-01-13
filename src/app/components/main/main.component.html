@@ -9,32 +9,27 @@
     
     <table mat-table [dataSource]="dataSource" matSort>
 
-      <!-- ID Column -->
-      <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header > ID</th>
-        <td mat-cell *matCellDef="let element" > {{element.id}} </td>
-      </ng-container>
-
+      
       <!-- Job Date Column -->
-      <ng-container matColumnDef="jobDate">
+      <ng-container matColumnDef="created_at">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>JOB DATE</th>
-        <td mat-cell *matCellDef="let element"> {{element.jobDate}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.created_at | date:"MM/dd/yy"}} </td>
       </ng-container>
       
       <!-- Container Number Column -->
-      <ng-container matColumnDef="containerNumber">
+      <ng-container matColumnDef="container_number">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> CONTAINER NUMBER</th>
-        <td mat-cell *matCellDef="let element"> {{element.containerNumber}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.container}} </td>
       </ng-container>
 
       <ng-container matColumnDef="shipper">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> SHIPPER</th>
-        <td mat-cell *matCellDef="let element"> {{element.shipper}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.shipper['first_name']}} </td>
       </ng-container>
       
       <ng-container matColumnDef="line">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> LINE</th>
-        <td mat-cell *matCellDef="let element"> {{element.line}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.line['name']}} </td>
       </ng-container>
 
       <ng-container matColumnDef="departure">
@@ -49,7 +44,7 @@
 
       <ng-container matColumnDef="vessel">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> VESSEL</th>
-        <td mat-cell *matCellDef="let element"> {{element.vessel}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.vessel['name']}} </td>
       </ng-container>
 
       <ng-container matColumnDef="status">
@@ -57,9 +52,9 @@
         <td mat-cell *matCellDef="let element"> {{element.status}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="receiptNumber">
+      <ng-container matColumnDef="receipt_number">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> RECEIPT NUMBER</th>
-        <td mat-cell *matCellDef="let element"> {{element.receiptNumber}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.receipt_number}} </td>
       </ng-container>
   
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

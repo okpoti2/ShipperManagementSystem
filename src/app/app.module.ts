@@ -19,7 +19,8 @@ import { HeaderComponent } from './components/header/header.component';
 
 
 /*--------------Services-----------------*/
-import { DataService } from "./services/data.service";
+//import { DataService } from "./services/data.service";
+import { ConsignmentService } from './services/consignment.service';
 
 
 
@@ -38,10 +39,10 @@ import { DataService } from "./services/data.service";
     AngularMaterialModule,
     FormsModule, ReactiveFormsModule,
     HttpClientModule,
-    InMemoryWebApiModule.forRoot(DataService),
+    //InMemoryWebApiModule.forRoot(DataService),
     //FlexLayoutModule
   ],
-  providers: [],
+  providers: [ConsignmentService],
   bootstrap: [AppComponent],
   schemas:[CUSTOM_ELEMENTS_SCHEMA]
 })
