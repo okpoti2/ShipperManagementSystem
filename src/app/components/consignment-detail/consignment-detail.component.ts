@@ -6,7 +6,8 @@ import { ConsignmentService } from 'src/app/services/consignment.service';
 @Component({
   selector: 'app-consignment-detail',
   templateUrl: './consignment-detail.component.html',
-  styleUrls: ['./consignment-detail.component.css']
+  styleUrls: ['./consignment-detail.component.css'],
+  providers:[ConsignmentService]
 })
 export class ConsignmentDetailComponent implements OnInit {
   consignment: Consignment;
@@ -17,10 +18,9 @@ export class ConsignmentDetailComponent implements OnInit {
     //const container: string = this.route.snapshot.params.container;
     this.route.paramMap.subscribe(params => {
       this.container = params.get('container');
-      this.consignmentService.getConsignment(this.container).subscribe((consign:Consignment)=>{
-        //console.log(this.container);
-        //console.log(consign);
+      this.consignmentService.getConsignment(this.container).subscribe(consign=>{
         this.consignment = consign['results'];
+        console.log(this.consignment.line);
         });
     });
     

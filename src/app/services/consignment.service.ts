@@ -24,6 +24,6 @@ export class ConsignmentService {
   }*/
   getConsignment(containerNumber): Observable<Consignment> {
     //console.log(this.API_URL + 'consignment?container='+`${containerNumber}`+'format=json')
-    return this.httpClient.get<Consignment>(this.API_URL + 'consignment?container='+`${containerNumber}`+'&format=json')
+    return this.httpClient.get<Consignment>(this.API_URL + 'consignment?container='+`${containerNumber}`+'&format=json&uicontext=detail')
   }
 }

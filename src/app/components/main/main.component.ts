@@ -11,7 +11,7 @@ import { Consignment } from 'src/app/model/consignment';
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
-  styleUrls: ['./main.component.css']
+  styleUrls: ['./main.component.css'],
 })
 export class MainComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['created_at','container_number', 'shipper', 'line', 'departure', 'arrival', 'vessel', 'status', 'receipt_number'];
