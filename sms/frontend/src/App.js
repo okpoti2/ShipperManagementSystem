@@ -1,23 +1,37 @@
-import logo from './logo.svg';
 import './App.css';
+import {useState, useEffect} from 'react'
+import Navbar from './components/Navbar'
+import ConsignTable from './components/ConsignTable'
 
 function App() {
+  const [consignments, setConsignments] = useState([])
+  const [consignError, setConsignError] = useState(null)
+  const [loadingConsign, setLoadingConsign] = useState(true)
+
+  //API URL
+  const API_URL = 'http://192.168.0.129:8000/consignment/?format=json'
+  
+  useEffect( () =>{
+      fetchConsignments()
+  },[])
+
+  //Fetch consignments
+  const fetchConsignments = async () =>{
+    try {
+      const res = await fetch(API_URL)
+    const data =  await res.json()
+    setConsignments(data.results)
+    } catch (e){
+      setConsignError(e)
+    } finally{
+      setLoadingConsign(false)
+    }
+
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Navbar />
+      <ConsignTable consignments={consignments}/>
     </div>
   );
 }
