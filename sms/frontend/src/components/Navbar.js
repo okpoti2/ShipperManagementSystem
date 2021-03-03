@@ -17,19 +17,22 @@ const useStyles = makeStyles((theme) => ({
     title: {
       flexGrow: 1,
     },
+    barColor:{
+      backgroundColor: theme.palette.secondary.main,
+    },
   }));
 
 const Navbar = () => {
     const classes = useStyles
     return (
         <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="static" style={{ background: '#851E82' }}>
         <Toolbar>
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            Borisut Logistics
+            Borisut Logistics: Shipper Management System
           </Typography>
         </Toolbar>
       </AppBar>
