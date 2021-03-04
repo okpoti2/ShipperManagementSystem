@@ -12,7 +12,7 @@ import TextField from '@material-ui/core/TextField';
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
-      backgroundColor: theme.palette.common.black,
+      backgroundColor: '#851E58',
       color: theme.palette.common.white,
       textTransform:theme.typography.fontWeightBold,
     },
