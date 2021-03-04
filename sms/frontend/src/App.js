@@ -2,7 +2,7 @@ import './App.css';
 import {useState, useEffect} from 'react'
 import Navbar from './components/Navbar'
 import ConsignTable from './components/ConsignTable'
-import {fetchConsignments} from './controllers/ConsignmentControlller'
+import {fetchConsignments} from './controllers/ConsignmentService'
 import Consignment from './pages/Consignment/Consignment'
 import Dashboard from './components/Dashboard'
 function App() {

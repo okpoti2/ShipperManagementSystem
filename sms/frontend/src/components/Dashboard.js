@@ -181,10 +181,21 @@ export default function Dashboard({consignments}) {
             </Grid>
             {/* Recent Deposits */}
             <Grid item xs={12} md={4} lg={3}>
-              <Paper className={fixedHeightPaper}>
-                <Deposits />
-              </Paper>
+              <Grid item xs container direction="column" spacing={2}>
+                <Grid item xs>
+                  <Paper className={fixedHeightPaper}>
+                    <Deposits />
+                  </Paper>
+                </Grid>
+                <Grid item xs>
+                  <Paper className={fixedHeightPaper}>
+                    <Deposits />
+                  </Paper>
+                </Grid>
+              
             </Grid>
+            </Grid>
+            
             {/* View All Consignments */}
             <Grid item xs={12}>
               <Paper className={classes.paper}>

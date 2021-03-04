@@ -57,21 +57,51 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ConsignmentForm() {
   const classes = useStyles();
-  const [lineState, setLineState] = useState({
-    age: '',
-    name: 'hai',
-  });
 
-  const handleChange = (event) => {
+  //State variables
+  const [lineState, setLineState] = useState({ line: '', id: '', });
+  const [vesselState, setVesselState] = useState({ vessel: '', id: '', });
+  const [formData, updateFormData] = useState();
+
+  // end of state variables
+
+  const handleLineChange = (event) => {
     const name = event.target.name;
     setLineState({
       ...lineState,
       [name]: event.target.value,
     });
+    handleFormChange(event)
   };
+
+  const handleVesselChange = (event) => {
+    const name = event.target.name;
+    setVesselState({
+      ...vesselState,
+      [name]: event.target.value,
+    });
+    handleFormChange(event)
+  };
+
+  // Handles arrival and departure dates for consignments
   const [deptDate, handleDeptDateChange] = useState(new Date());
   const [arrDate, handleArrDateChange] = useState(new Date());
+  
+  // Grabs the values from the form
+  const handleFormChange = (e) => {
+    updateFormData({
+      ...formData,
 
+      // Trimming any whitespace
+      [e.target.name]: e.target.value.trim()
+    });
+  };
+  //Handles the submission of form values
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    console.log(formData);
+    // ... submit to API or something
+  };
   return (
     
       
@@ -85,7 +115,7 @@ export default function ConsignmentForm() {
         <form className={classes.form} noValidate>
           <Grid container spacing={2}>
           <Grid item xs={12}>
-              <TextField
+              <TextField onChange={handleFormChange}
                 variant="outlined"
                 required
                 fullWidth
@@ -95,7 +125,7 @@ export default function ConsignmentForm() {
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
+              <TextField onChange={handleFormChange}
                 autoComplete="fname"
                 name="firstName"
                 variant="outlined"
@@ -130,38 +160,38 @@ export default function ConsignmentForm() {
             </Grid>
             <Grid item xs={12} sm={6}>
                 <FormControl variant="outlined" className={classes.formControl}>
-                    <InputLabel htmlFor="age-native-helper">LINE</InputLabel>
+                    <InputLabel htmlFor="line">LINE</InputLabel>
                     <NativeSelect
-                    value={lineState.age}
-                    onChange={handleChange}
+                    value={lineState.line}
+                    onChange={handleLineChange}
                     inputProps={{
-                        name: 'age',
-                        id: 'age-native-helper',
+                        name: 'line',
+                        id: 'line',
                     }}
                     >
                     <option aria-label="None" value="" />
-                    <option value={10}>HAPAG</option>
-                    <option value={20}>MAERSK</option>
-                    <option value={30}>MSC</option>
+                    <option value="HAPAG">HAPAG</option>
+                    <option value="MAERSK">MAERSK</option>
+                    <option value="MSC">MSC</option>
                     </NativeSelect>
                     <FormHelperText>If line option is not in list, create one first</FormHelperText>
                 </FormControl>
             </Grid>
             <Grid item xs={12} sm={6}>
                 <FormControl variant="outlined" className={classes.formControl}>
-                    <InputLabel htmlFor="age-native-helper">VESSEL</InputLabel>
+                    <InputLabel htmlFor="vessel">VESSEL</InputLabel>
                     <NativeSelect
-                    value={lineState.age}
-                    onChange={handleChange}
+                    value={vesselState.vessel}
+                    onChange={handleVesselChange}
                     inputProps={{
-                        name: 'age',
-                        id: 'age-native-helper',
+                        name: 'vessel',
+                        id: 'vessel',
                     }}
                     >
                     <option aria-label="None" value="" />
-                    <option value={10}>HAPAG</option>
-                    <option value={20}>MAERSK</option>
-                    <option value={30}>MSC</option>
+                    <option value="VIVIEN A">VIVIEN A</option>
+                    <option value="GENOA EXPRESS">GENOA EXPRESS</option>
+                    <option value="AS CARELIA">AS CARELIA</option>
                     </NativeSelect>
                     <FormHelperText>If vessel option is not in list, create one first</FormHelperText>
                 </FormControl>
@@ -202,7 +232,7 @@ export default function ConsignmentForm() {
             </Button>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Button
+            <Button onClick={handleSubmit}
                 type="submit"
                 fullWidth
                 variant="contained"
