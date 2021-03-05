@@ -22,6 +22,7 @@ import { mainListItems, secondaryListItems } from './listItems';
 import Deposits from './Deposits';
 import ConsignTable from './ConsignTable'
 import ConsignmentForm from '../pages/Consignment/ConsignmentForm'
+import Loader from './Loader'
 
 function Copyright() {
   return (
@@ -117,7 +118,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Dashboard({consignments}) {
+export default function Dashboard({consignments, shippers, lines, vessels, api_url}) {
+
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
@@ -173,10 +175,10 @@ export default function Dashboard({consignments}) {
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
-            {/* Add New Consignment */}
+            {/* Add New Consignment Form */}
             <Grid item xs={6} md={8} lg={9}>
               <Paper className={classes.paper}>
-                <ConsignmentForm />
+                <ConsignmentForm shippers={shippers} lines={lines} vessels={vessels} api_url={api_url}/>
               </Paper>
             </Grid>
             {/* Recent Deposits */}
@@ -198,9 +200,14 @@ export default function Dashboard({consignments}) {
             
             {/* View All Consignments */}
             <Grid item xs={12}>
-              <Paper className={classes.paper}>
+            {typeof consignments === "undefined" || consignments.length ===0 ? 
+                  (<Paper className={classes.paper}>
+                      <Loader />
+                    </Paper>
+                    ): 
+              (<Paper className={classes.paper}>
                 <ConsignTable consignments={consignments}/>
-              </Paper>
+              </Paper>)}
             </Grid>
           </Grid>
           <Box pt={4}>

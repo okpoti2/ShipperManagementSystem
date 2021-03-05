@@ -1,27 +1,23 @@
 import React, {useState} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 import NativeSelect from '@material-ui/core/NativeSelect';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
 import DateFnsUtils from '@date-io/date-fns'; 
 import {
   DatePicker,
   MuiPickersUtilsProvider,
 } from '@material-ui/pickers';
 
+// Services imports
+import {addConsignment} from '../../services/ConsignmentService'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -55,15 +51,27 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-export default function ConsignmentForm() {
+export default function ConsignmentForm({shippers, lines, vessels, api_url}) {
   const classes = useStyles();
 
   //State variables
+  const [shipperState, setShipperState] = useState({ shipper: '', id: '', });
   const [lineState, setLineState] = useState({ line: '', id: '', });
   const [vesselState, setVesselState] = useState({ vessel: '', id: '', });
+  const [statusState, setStatusState] = useState({status:''});
   const [formData, updateFormData] = useState();
 
   // end of state variables
+
+
+  const handleShipperChange = (event) => {
+    const name = event.target.name;
+    setShipperState({
+      ...shipperState,
+      [name]: event.target.value,
+    });
+    handleFormChange(event)
+  };
 
   const handleLineChange = (event) => {
     const name = event.target.name;
@@ -83,9 +91,39 @@ export default function ConsignmentForm() {
     handleFormChange(event)
   };
 
+  const handleStatusChange = (event) => {
+    const name = event.target.name;
+    setStatusState({
+      ...statusState,
+      [name]: event.target.value,
+    });
+    
+    handleFormChange(event)
+  };
+
   // Handles arrival and departure dates for consignments
-  const [deptDate, handleDeptDateChange] = useState(new Date());
-  const [arrDate, handleArrDateChange] = useState(new Date());
+  const [deptDate, setDeptDate] = useState(new Date());
+  const [arrDate, setArrDate] = useState(new Date());
+
+  const handleDeptDateChange = (x,event) => {
+    const current_datetime = new Date(x)
+    const formatted_date = current_datetime.getFullYear() + "-" + (current_datetime.getMonth() + 1) + "-" +current_datetime.getDate() ;
+    setDeptDate(formatted_date);
+    updateFormData({
+      ...formData,
+      'departure': formatted_date.toString()
+    });
+  };
+  const handleArrDateChange = (x, event) => {
+    const current_datetime = new Date(x)
+    const formatted_date = current_datetime.getFullYear() + "-" + (current_datetime.getMonth() + 1) + "-" +current_datetime.getDate() ;
+    setArrDate(formatted_date);
+    updateFormData({
+      ...formData,
+      'arrival': formatted_date.toString()
+    });
+  };
+
   
   // Grabs the values from the form
   const handleFormChange = (e) => {
@@ -100,7 +138,14 @@ export default function ConsignmentForm() {
   const handleSubmit = (e) => {
     e.preventDefault()
     console.log(formData);
-    // ... submit to API or something
+    
+    //add consignment to database
+    (async () => {
+      const res = await addConsignment(api_url)
+      const data = await res.json()
+      console.log(data)
+    })();
+
   };
   return (
     
@@ -119,48 +164,34 @@ export default function ConsignmentForm() {
                 variant="outlined"
                 required
                 fullWidth
-                name="containerNumber"
+                name="container"
                 label="Container Number"
-                id="containerNumber"
+                id="container"
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField onChange={handleFormChange}
-                autoComplete="fname"
-                name="firstName"
-                variant="outlined"
-                required
-                fullWidth
-                id="firstName"
-                label="Shipper First Name"
-                autoFocus
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="lastName"
-                label="Shipper Last Name"
-                name="lastName"
-                autoComplete="lname"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} >
                 <FormControl variant="outlined" className={classes.formControl}>
-                    <InputLabel htmlFor="line">LINE</InputLabel>
+                    <InputLabel htmlFor="line"><strong>SELECT SHIPPER</strong></InputLabel>
+                    <NativeSelect
+                    value={shipperState.shipper}
+                    fullWidth
+                    onChange= {handleShipperChange}
+                    inputProps={{
+                        name: 'shipper',
+                        id: 'shipper',
+                    }}
+                    >
+                    <option aria-label="None" value="" />
+                    {shippers.map((shipper) => (
+                      <option value={shipper.url} key={shipper.url}>{shipper.first_name} {shipper.last_name}</option>
+                    ))}
+                    </NativeSelect>
+                    <FormHelperText>If shipper option is not in list, create one first</FormHelperText>
+                </FormControl>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+                <FormControl variant="filled" className={classes.formControl}>
+                    <InputLabel htmlFor="line"><strong>SELECT LINE</strong></InputLabel>
                     <NativeSelect
                     value={lineState.line}
                     onChange={handleLineChange}
@@ -170,16 +201,16 @@ export default function ConsignmentForm() {
                     }}
                     >
                     <option aria-label="None" value="" />
-                    <option value="HAPAG">HAPAG</option>
-                    <option value="MAERSK">MAERSK</option>
-                    <option value="MSC">MSC</option>
+                    {lines.map((line) => (
+                    <option value={line.url} key={line.url}>{line.name}</option>
+                    ))}
                     </NativeSelect>
                     <FormHelperText>If line option is not in list, create one first</FormHelperText>
                 </FormControl>
             </Grid>
             <Grid item xs={12} sm={6}>
                 <FormControl variant="outlined" className={classes.formControl}>
-                    <InputLabel htmlFor="vessel">VESSEL</InputLabel>
+                    <InputLabel htmlFor="vessel"><strong>SELECT VESSEL</strong></InputLabel>
                     <NativeSelect
                     value={vesselState.vessel}
                     onChange={handleVesselChange}
@@ -189,9 +220,9 @@ export default function ConsignmentForm() {
                     }}
                     >
                     <option aria-label="None" value="" />
-                    <option value="VIVIEN A">VIVIEN A</option>
-                    <option value="GENOA EXPRESS">GENOA EXPRESS</option>
-                    <option value="AS CARELIA">AS CARELIA</option>
+                    {vessels.map((vessel) => (
+                    <option value={vessel.url} key={vessel.url}>{vessel.name}</option>
+                    ))}
                     </NativeSelect>
                     <FormHelperText>If vessel option is not in list, create one first</FormHelperText>
                 </FormControl>
@@ -200,7 +231,7 @@ export default function ConsignmentForm() {
                 <MuiPickersUtilsProvider utils={DateFnsUtils} >
                 <DatePicker value={deptDate} 
                     className={classes.formControl}
-                    onChange={handleDeptDateChange} 
+                    onChange={(x,e)=>{handleDeptDateChange(x,e)} }
                     name="departure"
                     id = "departure"
                     label="DEPARTURE"
@@ -213,12 +244,40 @@ export default function ConsignmentForm() {
                         className={classes.formControl}
                         name="arrival"
                         id = "arrival"
-                        onChange={handleArrDateChange} 
+                        onChange={(x,e)=>{handleArrDateChange(x,e)} }
                         label="ARRIVAL"
                         minDate={deptDate}
                         minDateMessage="Date should not be earlier than departure date"
                         format="dd/MM/yyyy"/>
                 </MuiPickersUtilsProvider>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="receipt_number"
+                label="Receipt Number"
+                name="receipt_number"
+                onChange = {handleFormChange}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+                <FormControl variant="outlined" className={classes.formControl}>
+                    <InputLabel htmlFor="status"><strong>COMPLETED?</strong></InputLabel>
+                    <NativeSelect
+                    value={statusState.status}
+                    onChange={handleStatusChange}
+                    inputProps={{
+                        name: 'status',
+                        id: 'status',
+                    }}
+                    >
+                    <option aria-label="None" value="" />
+                    <option value={'NO'} key={'NO'}>NO</option>
+                    <option value={'YES'} key={'YES'}>YES</option>
+                    </NativeSelect>
+                </FormControl>
             </Grid>
             <Grid item xs={12} sm={6}>
             <Button

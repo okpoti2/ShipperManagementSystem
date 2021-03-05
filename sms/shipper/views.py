@@ -67,6 +67,7 @@ class ConsignmentViewSet(viewsets.ModelViewSet):
     queryset = Consignment.objects.all()
     serializer_class = ConsignmentSerializer
     filter_class = ConsignmentFilter
+    
 
     def get_serializer_class(self):
         ui_context = self.request.query_params.get('uicontext')

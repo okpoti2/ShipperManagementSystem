@@ -20,7 +20,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
-import Loader from './Loader'
+
 
 
 function descendingComparator(a, b, orderBy) {
@@ -219,7 +219,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ConsignTable({consignments}) {
-  //console.log(consignments)
 
   const classes = useStyles();
   const [order, setOrder] = React.useState('asc');
@@ -302,8 +301,7 @@ export default function ConsignTable({consignments}) {
               rowCount={consignments.length}
             />
             <TableBody>
-            {consignments.length ===0 &&
-                  (<Loader />)}
+            
               {stableSort(consignments, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((consignment, index) => {

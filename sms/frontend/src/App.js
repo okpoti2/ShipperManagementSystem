@@ -1,27 +1,53 @@
 import './App.css';
 import {useState, useEffect} from 'react'
-import Navbar from './components/Navbar'
-import ConsignTable from './components/ConsignTable'
-import {fetchConsignments} from './controllers/ConsignmentService'
-import Consignment from './pages/Consignment/Consignment'
+import {fetchConsignments} from './services/ConsignmentService'
+import {fetchShippers} from './services/ShipperService'
+import {fetchLines} from './services/LineService'
+import {fetchVessels} from './services/VesselService'
 import Dashboard from './components/Dashboard'
+require('dotenv').config()
+
+
+//API URL
+const API_BASE_URL = process.env.REACT_APP_HOST_URL
+
 function App() {
   const [consignments, setConsignments] = useState([])
+  const [shippers, setShippers] = useState([])
+  const [lines, setLines] = useState([])
+  const [vessels, setVessels] = useState([])
 
-  //API URL
-  const API_BASE_URL = 'http://192.168.0.129:8000/'
   
+
   useEffect( () =>{
     (async () => {
-      const data = await fetchConsignments(API_BASE_URL)
-      setConsignments(data)
-    })()
+      const consignmentData = await fetchConsignments(API_BASE_URL)
+      setConsignments(consignmentData)
+    })();
+
+    // fetch shippers
+    (async () => {
+      const shippersData = await fetchShippers(API_BASE_URL)
+      setShippers(shippersData)
+    })();
+
+    // fetch lines
+    (async () => {
+      const linesData = await fetchLines(API_BASE_URL)
+      setLines(linesData)
+    })();
+
+    // fetch vessels
+    (async () => {
+      const vesselsData = await fetchVessels(API_BASE_URL)
+      setVessels(vesselsData)
+    })();
   },[])
 
 
   return (
     <div className="App">
-      <Dashboard consignments={consignments}/>
+      <Dashboard consignments={consignments} shippers={shippers} lines={lines} vessels = {vessels} api_url={API_BASE_URL}/>
     </div>
   );
 }
