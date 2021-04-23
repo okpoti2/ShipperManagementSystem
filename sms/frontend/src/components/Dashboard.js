@@ -173,11 +173,11 @@ export default function Dashboard({consignments, shippers, lines, vessels, api_u
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
-        <Container maxWidth="lg" className={classes.container}>
+        <Container maxWidth="lg" className={classes.container} >
           <Grid container spacing={3}>
             {/* Add New Consignment Form */}
             <Grid item xs={6} md={8} lg={9}>
-              <Paper className={classes.paper}>
+              <Paper className={classes.paper} style={{border: "1px solid"}}>
                 <ConsignmentForm shippers={shippers} lines={lines} vessels={vessels} api_url={api_url}/>
               </Paper>
             </Grid>

@@ -6,7 +6,7 @@ const fetchConsignments = async (base_url) => {
     try {
         const res = await fetch(base_url.concat(API_URL))
         const data =  await res.json()
-        return data.results
+        return data.results.sort(comp)
     } catch (e){
       console.log(e)
       //return dummydata.results
@@ -24,12 +24,19 @@ const addConsignment = async(base_url,consignment) => {
               'Content-type':'application/json',
               'Authorization': 'Basic '+btoa('evans:evans.sowah'),
             },
-            body:consignment
+            body:JSON.stringify(consignment)
         })
         return res
     } catch(e){
       console.log(e)
   }
 }
+
+// Sorting the consignments by date to always show the most recent
+function comp(a, b) {
+  return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+}
+
+
 
 export {fetchConsignments, addConsignment}

@@ -141,7 +141,7 @@ export default function ConsignmentForm({shippers, lines, vessels, api_url}) {
     
     //add consignment to database
     (async () => {
-      const res = await addConsignment(api_url)
+      const res = await addConsignment(api_url,formData)
       const data = await res.json()
       console.log(data)
     })();
