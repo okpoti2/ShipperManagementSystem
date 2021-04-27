@@ -13,7 +13,7 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-import Checkbox from '@material-ui/core/Checkbox';
+//import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -81,7 +81,7 @@ const StyledTableRow = withStyles((theme) => ({
 
 
 function EnhancedTableHead(props) {
-  const { classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
+  const { classes, /*onSelectAllClick,*/ order, orderBy, /*numSelected,*/ /*rowCount,*/ onRequestSort } = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
@@ -90,12 +90,12 @@ function EnhancedTableHead(props) {
     <TableHead>
       <TableRow>
         <StyledTableCell padding="checkbox">
-          <Checkbox
+          {/* <Checkbox
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
             inputProps={{ 'aria-label': 'select all consignments' }}
-          />
+          /> */}
         </StyledTableCell>
         {headCells.map((headCell) => (
           <StyledTableCell
@@ -225,8 +225,8 @@ export default function ConsignTable({consignments}) {
   const [orderBy, setOrderBy] = React.useState('calories');
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [dense, setDense] = React.useState(true);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -319,20 +319,20 @@ export default function ConsignTable({consignments}) {
                       selected={isItemSelected}
                     >
                       <TableCell padding="checkbox">
-                        <Checkbox
+                        {/* <Checkbox
                           checked={isItemSelected}
                           inputProps={{ 'aria-labelledby': labelId }}
-                        />
+                        /> */}
                       </TableCell>
                       <StyledTableCell component="th" id={labelId} scope="row" padding="none">
                         {consignment.container}
                       </StyledTableCell>
-                      <TableCell align="right">{consignment.shipper.first_name}</TableCell>
-                      <TableCell align="right">{consignment.line.name}</TableCell>
-                      <TableCell align="right">{consignment.departure}</TableCell>
-                      <TableCell align="right">{consignment.arrival}</TableCell>
-                      <TableCell align="right">{consignment.vessel.name}</TableCell>
-                      <TableCell align="right">{consignment.status}</TableCell>
+                      <TableCell align="left">{consignment.shipper.first_name}</TableCell>
+                      <TableCell align="left">{consignment.line.name}</TableCell>
+                      <TableCell align="left">{consignment.departure}</TableCell>
+                      <TableCell align="left">{consignment.arrival}</TableCell>
+                      <TableCell align="left">{consignment.vessel.name}</TableCell>
+                      <TableCell align="left">{consignment.status}</TableCell>
                     </StyledTableRow>
                   );
                 })}
@@ -344,8 +344,8 @@ export default function ConsignTable({consignments}) {
             </TableBody>
           </Table>
         </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
+        <TablePagination style={{backgroundColor:'lightblue'}}
+          rowsPerPageOptions={[5, 10, 20, 25]}
           component="div"
           count={consignments.length}
           rowsPerPage={rowsPerPage}

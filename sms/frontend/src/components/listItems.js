@@ -9,28 +9,29 @@ import PeopleIcon from '@material-ui/icons/People';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import WavesIcon from '@material-ui/icons/Waves';
 import AssignmentIcon from '@material-ui/icons/Assignment';
+import { Link } from 'react-router-dom';
 
 export const mainListItems = (
   <div>
-    <ListItem button>
+    <ListItem button component={Link} to="/">
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>
       <ListItemText primary="Dashboard" />
     </ListItem>
-    <ListItem button>
+    <ListItem button component={Link} to="/shippers">
       <ListItemIcon>
         <PeopleIcon />
       </ListItemIcon>
       <ListItemText primary="Shippers" />
     </ListItem>
-    <ListItem button>
+    <ListItem button component={Link} to="/lines">
       <ListItemIcon>
         <DirectionsBoatIcon />
       </ListItemIcon>
       <ListItemText primary="Lines" />
     </ListItem>
-    <ListItem button>
+    <ListItem button component={Link} to="/vessels">
       <ListItemIcon>
         <WavesIcon />
       </ListItemIcon>

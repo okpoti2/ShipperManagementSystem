@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    margin: 'dense',
   },
   avatar: {
     margin: theme.spacing(1),
@@ -158,23 +159,24 @@ export default function ConsignmentForm({shippers, lines, vessels, api_url}) {
           Add new consignment
         </Typography>
         <form className={classes.form} noValidate>
-          <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid container spacing={1}>
+          <Grid item xs={12} sm={6}>
               <TextField onChange={handleFormChange}
-                variant="outlined"
                 required
+                variant="outlined"
                 fullWidth
                 name="container"
                 label="Container Number"
                 id="container"
               />
             </Grid>
-            <Grid item xs={12} >
+            <Grid item xs={12} sm={6}>
                 <FormControl variant="outlined" className={classes.formControl}>
                     <InputLabel htmlFor="line"><strong>SELECT SHIPPER</strong></InputLabel>
                     <NativeSelect
                     value={shipperState.shipper}
                     fullWidth
+                    margin="dense"
                     onChange= {handleShipperChange}
                     inputProps={{
                         name: 'shipper',
@@ -195,6 +197,7 @@ export default function ConsignmentForm({shippers, lines, vessels, api_url}) {
                     <NativeSelect
                     value={lineState.line}
                     onChange={handleLineChange}
+                    margin="dense"
                     inputProps={{
                         name: 'line',
                         id: 'line',
@@ -214,6 +217,7 @@ export default function ConsignmentForm({shippers, lines, vessels, api_url}) {
                     <NativeSelect
                     value={vesselState.vessel}
                     onChange={handleVesselChange}
+                    margin="dense"
                     inputProps={{
                         name: 'vessel',
                         id: 'vessel',
@@ -235,6 +239,7 @@ export default function ConsignmentForm({shippers, lines, vessels, api_url}) {
                     name="departure"
                     id = "departure"
                     label="DEPARTURE"
+                    margin="dense"
                     format="dd/MM/yyyy"/>
                 </MuiPickersUtilsProvider>
             </Grid>
@@ -246,6 +251,7 @@ export default function ConsignmentForm({shippers, lines, vessels, api_url}) {
                         id = "arrival"
                         onChange={(x,e)=>{handleArrDateChange(x,e)} }
                         label="ARRIVAL"
+                        margin="dense"
                         minDate={deptDate}
                         minDateMessage="Date should not be earlier than departure date"
                         format="dd/MM/yyyy"/>
@@ -254,7 +260,6 @@ export default function ConsignmentForm({shippers, lines, vessels, api_url}) {
             <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
-                required
                 fullWidth
                 id="receipt_number"
                 label="Receipt Number"
