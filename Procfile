@@ -1,1 +1,1 @@
-web: gunicorn borisut-sms.wsgi
+web: gunicorn sms.wsgi
