@@ -1,2 +1,1 @@
-web: gunicorn gettingstarted.wsgi
-web: python manage.py runserver
+web: gunicorn borisut-sms.wsgi
