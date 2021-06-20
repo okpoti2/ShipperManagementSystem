@@ -1,1 +1,1 @@
-web: python smsmanage.py runserver 0.0.0.0:5000
+web: python sms/manage.py runserver
